@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<canvas width="600" height="400" id="cas"></canvas>
+</body>
+<script>
+    // 处理弧度与角度的计算
+    function toAngle(radian) {
+        return radian * 180 / Math.PI;
+    }
+    function toRadian(angle) {
+        return angle * Math.PI / 180;
+    }
+    var cas = document.getElementById('cas');
+    var ctx = cas.getContext('2d');
+
+    //保存所有的人员数据的数组cs01
+    var cs01 = [12, 53, 3];
+    //所有的颜色
+    var colors = ['red', 'green', 'blue'];
+    //求和sum
+    var sum = 0;
+    //开始角度
+    var start = -90;
+    //通过forEach求和，
+    cs01.forEach(function (v) {
+        sum += v;
+    });
+    //通过map映射成一个新数组，数组中的内容包含一个个的对象，对象中包含人数信息和角度信息
+    cs01 = cs01.map(function (v, i) {
+        return {v: v, radius: v / sum * 360};
+    });
+    //通过循环打印饼形
+    cs01.forEach(function (v, i) {
+        ctx.beginPath();
+        ctx.fillStyle = colors[i];
+        //console.log(v.radius);
+        ctx.moveTo(200, 300);
+        ctx.arc(200, 300, 100, toRadian(start), toRadian(start += v.radius));
+        ctx.fill();
+    });
+
+</script>
+</html>
